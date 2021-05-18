@@ -1,0 +1,55 @@
+version: "3.8"
+services:
+  selenium_hub:
+    image: selenium/hub
+    container_name: selenium-hub-appium
+    restart: always
+    environment:
+      - GRID_BROWSER_TIMEOUT=120
+      - GRID_TIMEOUT=180
+    ports:
+      - "4444:4444"
+
+  real_device:
+    image: appium/appium
+    restart: always
+    depends_on:
+      - selenium_hub
+    privileged: true
+    ports:
+      - "4723:4723" # one port for each device
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
+      - ~/.android:/root/.android
+      # - path/to/NODE/CONFIG:/root/nodeconfig.json # This is required if CUSTOM_NODE_CONFIG=true in environment
+    environment:
+      - CONNECT_TO_GRID=true
+      - APPIUM_HOST=192.168.0.142
+      - APPIUM_PORT=4723
+      - SELENIUM_HOST=selenium_hub
+      - SELENIUM_PORT=4444
+      - CUSTOM_NODE_CONFIG=false
+      - RELAXED_SECURITY=true # to disable additional security check to use some advanced features
+
+  # Docker Android. More images on https://github.com/budtmo/docker-android
+  android_11:
+    image: budtmo/docker-android-x86-11.0
+    restart: always
+    privileged: true
+    depends_on:
+      - selenium_hub
+      - real_device
+#    ports wont allow to scale up
+#    ports:
+#      - "6080:6080"
+#      - "5554:5554"
+#      - "4725:4723" # one port for each device
+#      - "5555:5555"
+    volumes:
+      - ./video:/tmp/video
+    environment:
+      - DEVICE=Nexus 5
+      - CONNECT_TO_GRID=true
+      - APPIUM=true
+      - SELENIUM_HOST=selenium_hub
+      - AUTO_RECORD=true

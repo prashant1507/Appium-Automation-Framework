@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="tests" thread-count="5"
+	verbose="10" preserve-order="true" data-provider-thread-count="2">
+
+	<listeners>
+		<listener class-name="org.automation.listeners.Listener" />
+		<!-- Below is custom annotation listener -->
+		<!-- <listener class-name="org.automation.listeners.AnnotationTransformer"/> -->
+	</listeners>
+
+	<test name="device1">
+		<classes>
+			<class name="org.automation.tests.LoginPageTests" />
+		</classes>
+	</test>
+</suite>
+
+
+
+<!-- data-provider-thread-count="2" to limit the parallel execution of data 
+	provider -->
+
+<!-- <suite name="Suite" verbose="10" parallel="classes" thread-count="2" 
+	preserve-order="true" data-provider-thread-count="1"> -->
+<!-- <suite name="Suite" verbose="10" parallel="tests" thread-count="2" preserve-order="true" 
+	data-provider-thread-count="1"> -->
+<!-- <suite name="Suite" verbose="10" parallel="false" thread-count="2" preserve-order="true" 
+	data-provider-thread-count="1"> -->

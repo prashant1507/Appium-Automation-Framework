@@ -1,0 +1,16 @@
+.idea
+src/test/resources/capabilities
+src/test/resources/logs
+target
+test-report-videos
+test-reports
+test-screenshots
+MobileAutomationFramework.iml
+old-report-data.json
+test-output
+.classpath
+.factorypath
+.project
+.DS_STORE
+.settings
+.vscode

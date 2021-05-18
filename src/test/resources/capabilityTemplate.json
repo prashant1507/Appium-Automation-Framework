@@ -1,0 +1,16 @@
+[
+  {
+    "name": "",
+    "capabilities": {
+      "automationName": "UiAutomator2",
+      "noReset": true,
+      "fullReset": false,
+      "newCommandTimeout": 30,
+      "udid": "",
+      "platformName": "Android",
+      "platformVersion": "",
+      "appPackage": "",
+      "appActivity": ""
+    }
+  }
+]

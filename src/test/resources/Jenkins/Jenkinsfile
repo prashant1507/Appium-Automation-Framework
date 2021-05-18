@@ -1,0 +1,137 @@
+pipeline {
+    agent any
+    
+    options {
+        buildDiscarder(
+            logRotator(
+                numToKeepStr: '5'
+            )
+        )
+    }
+    parameters{
+        string(name: 'Url', defaultValue: 'https://opensource-demo.orangehrmlive.com/', description: 'URL of the environment to be tested')
+        string(name: 'Env', defaultValue: 'Production', description: 'Environment name')
+        string(name: 'TesterName', defaultValue: 'QA Test User', description: 'Name of the tester who is running the test.')
+        string(name: 'AppiumHub', defaultValue: 'http://192.168.0.142:4723/wd/hub', description: 'Appium Hub URL.')
+        choice(choices: ['grid', 'selenoid', 'local', 'zalenium'], name: 'RunMode', description: 'Perform execution on')
+        string(name: 'RemoteUrl', defaultValue: 'http://192.168.0.142:4444/wd/hub/', description: 'Url of the remote environment. Required if RunMode is Yes')
+        choice(choices: ['yes', 'no'], name: 'UseElk', description: 'Is Real-Time Dashboard ELK is setup?')
+        string(name: 'ElasticSearchUrl', defaultValue: 'http://192.168.0.142:9200/automation/result', description: 'If ELK is ready to use then provide the URL of the elastic search.')
+        choice(choices: ['yes', 'no'], name: 'DeleteReports', description: 'Do you want to delete reports?')
+        string(name: 'NumberOfDays', defaultValue: '10', description: 'The number of days older report needs to be deleted')
+        choice(choices: ['no', 'yes'], name: 'OverRideReports', description: 'Append in the existing report?')
+        choice(choices: ['yes', 'no'], name: 'TakeScreenShotForPass', description: 'Do you want to attach the screenshot to pass test cases?')
+        choice(choices: ['no', 'yes'], name: 'RetryFailedTestCase', description: 'Retry for failed test cases. NOT RECOMMENDED.')
+        choice(choices: ['no', 'yes'], name: 'SendMailAfterExecution', description: 'Do you want to send the report by email?')
+        choice(choices: ['outlook', 'gmail'], name: 'MailServerName', description: 'Public mail server name')
+        string(name: 'SenderEmailID', defaultValue: 'testmachine12345hot@outlook.com', description: 'Sender\'s email ID')
+        string(name: 'SenderPassword', defaultValue: 'MzYzMDExNTJzU0BACg==', description: 'Sender\'s email password')
+        string(name: 'ReceiverMailID', defaultValue: 'testmachine12345hot@outlook.com', description: 'Receiver\'s email ID')
+    }
+    tools { 
+        maven 'Maven' // Name from the Jenkins Global Configuration
+        jdk 'Java8' // Name from the Jenkins Global Configuration
+    }
+    stages {
+        // Un-comment below line to give custom build name
+        // stage('Job description') {
+        //     steps {
+        //         script {
+        //             currentBuild.displayName = "Automation-Framework-Using-JenkinsFile-Pipeline"
+        //             currentBuild.description = "Job to execute test using jenkins file"
+        //         }
+        //     }
+        // }
+        stage('Clean workspace') {
+            steps {
+                cleanWs()
+                checkout scm
+            }
+        }
+        stage('Checking Mandatory Fields') {
+            steps {
+                script{
+                    if (params.SendMailAfterExecution == 'yes') {
+                        if(params.SenderEmailID.isEmpty()) {
+                            currentBuild.result = 'ABORTED'
+                            error("Sender emailID is empty")
+                        }
+                        if(params.SenderPassword.isEmpty()) {
+                            currentBuild.result = 'ABORTED'
+                            error("Sender Password is empty")
+                        }
+                        if(params.ReceiverMailID.isEmpty()) {
+                            currentBuild.result = 'ABORTED'
+                            error("Receiver emailID is empty")
+                        }
+                    }
+                    if (params.Url.isEmpty()) { 
+                        currentBuild.result = 'ABORTED'
+                        error("Url is empty")
+                    }
+                    if (params.Env.isEmpty()) { 
+                        currentBuild.result = 'ABORTED'
+                        error("Env is empty")
+                    }
+                    if (params.TesterName.isEmpty()) { 
+                        currentBuild.result = 'ABORTED'
+                        error("Tester name is empty")
+                    }
+                    if (params.AppiumHub.isEmpty()) {
+                        currentBuild.result = 'ABORTED'
+                        error("Appium Hub url is empty")
+                    }
+                    if (params.RunMode == 'grid' || params.RunMode == 'selenoid') { 
+                        if (params.RemoteUrl.isEmpty()) { 
+                            currentBuild.result = 'ABORTED'
+                            error("Remote url is empty")
+                        }
+                    }
+                    if (params.UseElk == 'yes') { 
+                        if (params.ElasticSearchUrl.isEmpty()) { 
+                            currentBuild.result = 'ABORTED'
+                            error("Elastic Search url is empty")
+                        }
+                    }
+
+
+                }
+            }
+        }
+        stage('Preparing Properties File') {
+            steps {
+                sh '''
+                    chmod +x src/test/resources/Jenkins/SetupExecution.sh
+                    ./src/test/resources/Jenkins/SetupExecution.sh
+                '''
+            }
+        }
+        stage('Selenium Grid Setup') {
+            steps {
+                echo 'Hello Selenium'
+            }
+        }
+        stage('Selenoid Setup') {
+            steps {
+                echo 'Hello Selenoid'
+            }
+        }
+        stage('Starting Execution') {
+            steps {
+                sh('mvn clean compile test')
+            }
+        }
+    }
+    post {
+        always {
+            publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'test-reports',
+            reportFiles: '*.html',
+            reportName: 'Test Execution Report',
+            reportTitles: ''])
+        }
+    }
+}

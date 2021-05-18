@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  node-docker:
+    image: selenium/node-docker:4.0.0-beta-3-20210426
+    restart: always
+    volumes:
+      - $PWD/config.toml:/opt/bin/config.toml
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+
+  selenium-hub:
+    image: selenium/hub:4.0.0-beta-3-20210426
+    restart: always
+    container_name: selenium-hub-test
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"

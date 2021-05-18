@@ -1,0 +1,46 @@
+def status
+pipeline {
+    agent any
+    options {
+        buildDiscarder(
+            logRotator(
+                numToKeepStr: '5'
+            )
+        )
+    }
+    stages {
+        stage('Creating folder') {
+            steps {
+                script {
+                    status = sh (script:''' sshpass -p qwerty11 ssh -o StrictHostKeyChecking=no administrator@192.168.0.142 "mkdir -p ~/jenkinsjob/seleniumgrid" ''', returnStatus:true)
+                     if (status != 0) {
+                        echo "Fail to create folder"
+                        sh(''' exit 1 ''')
+                    }
+                }
+            }
+        }
+        stage('Copying compose file') {
+            steps {
+                script {
+                    status = sh (script:''' sshpass -p qwerty11 scp -o StrictHostKeyChecking=no src/test/resources/docker/docker-compose-selenium-grid.yml administrator@192.168.0.142:~/jenkinsjob/seleniumgrid ''', returnStatus:true)
+                     if (status != 0) {
+                        echo "Fail to copy compose file"
+                        sh(''' exit 1 ''')
+                    }
+                }
+            }
+        }
+        stage('Setting up selenium grid environment') {
+            steps {
+                script {
+                    status = sh (script:''' sshpass -p qwerty11 ssh -o StrictHostKeyChecking=no administrator@192.168.0.142 "sshpass -p qwerty11 sudo docker-compose -f ~/jenkinsjob/seleniumgrid/docker-compose-selenium-grid.yml up -d" ''', returnStatus:true)
+                     if (status != 0) {
+                        echo "Fail to start compose file"
+                        sh(''' exit 1 ''')
+                    }
+                }
+            }
+        }
+    }    
+}

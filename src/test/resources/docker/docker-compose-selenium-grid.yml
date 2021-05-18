@@ -1,0 +1,72 @@
+version: "3"
+services:
+  chrome:
+    image: selenium/node-chrome:4.0.0-beta-3-20210426
+    restart: always
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=5
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    # ports:
+    #   - "7900:7900" --- to view node in browser. If there are different containers for node than there will be port conflicts (OutsidePort:InsidePort)
+    #   - "5900:5900" --- to view node in vnc viewer. If there are different containers for node than there will be port conflicts
+
+  edge:
+    image: selenium/node-edge:4.0.0-beta-3-20210426
+    restart: always
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=5
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+
+  firefox:
+    image: selenium/node-firefox:4.0.0-beta-3-20210426
+    restart: always
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=5
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+
+  opera:
+    image: selenium/node-opera:4.0.0-beta-3-20210426
+    restart: always
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=5
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+
+  selenium-hub:
+    image: selenium/hub:4.0.0-beta-3-20210426
+    container_name: selenium-hub
+    restart: always
+    environment:
+      - GRID_BROWSER_TIMEOUT=120
+      - GRID_TIMEOUT=180
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"

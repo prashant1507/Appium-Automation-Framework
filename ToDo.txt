@@ -1,0 +1,21 @@
+Fix:
+src/test/resources/Jenkins/SetupExecution.sh
+src/test/resources/Jenkins/Jenkinsfile
+ReadMe.md
+Update docker file for appium
+Java Docs
+framework-generate-sample-report/
+
+
+
+Update:
+Code
+Tests
+
+Check with:
+Appium Docker
+Selenium grid
+Zalenium
+Selenoid
+Dynamic Grd 4
+Selenium Grid 4
