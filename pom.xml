@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.automation</groupId>
-	<artifactId>MobileAutomationFramework</artifactId>
+	<artifactId>AppiumAutomationFramework</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<!-- For Java ADB client -->
@@ -17,7 +17,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jadb.version>94ebf38</jadb.version>
-		<selenium-java.version>3.141.59</selenium-java.version>
 		<testng.version>6.14.3</testng.version>
 		<jackson-databind.version>2.12.2</jackson-databind.version>
 		<jackson-core.version>2.12.2</jackson-core.version>
@@ -216,13 +215,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${commons-lang3.version}</version>
-		</dependency>
-
-		<!-- Selenium Jar -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>${selenium-java.version}</version>
 		</dependency>
 
 		<!-- TestNG Jar -->

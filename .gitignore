@@ -5,7 +5,7 @@ target
 test-report-videos
 test-reports
 test-screenshots
-MobileAutomationFramework.iml
+AppiumAutomationFramework.iml
 old-report-data.json
 test-output
 .classpath

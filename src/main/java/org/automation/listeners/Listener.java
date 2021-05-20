@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Base64;
 
-import org.automation.appium.AppiumServerSetup;
+import org.automation.appium.AppiumSetup;
 import org.automation.appium.CapabilityManager;
-import org.automation.appium.GenerateCapabilityFile;
+import org.automation.appium.CapabilityFileGeneration;
 import org.automation.constants.GlobalVars;
 import org.automation.elk.ELKUtils;
 import org.automation.enums.ConfigMap;
@@ -45,6 +45,7 @@ public class Listener implements ITestListener, ISuiteListener {
 	 * Apr 8, 2021
 	 */
 	public void onStart(ISuite suite) {
+		// Before suite
 		XmlSuite a = suite.getXmlSuite();
 		int z = a.getThreadCount();
 
@@ -55,12 +56,12 @@ public class Listener implements ITestListener, ISuiteListener {
 			}
 		} catch (Exception e) {
 			UserInputCheck.designerOutputForPasswordError();
-			System.exit(0);
+			System.exit(1);
 		}
 		FileSystemHandler.deleteOldReports();
 		FileSystemHandler.deleteDir(GlobalVars.getScreenshotDir());
 		ExtentReport.initReports();
-		GenerateCapabilityFile.generateCapabilityFile();
+		CapabilityFileGeneration.generateCapabilityFile();
 	}
 
 	public void onFinish(ISuite suite) {
@@ -73,6 +74,7 @@ public class Listener implements ITestListener, ISuiteListener {
 		ExtentReport.createTests(result.getMethod().getDescription());
 		FileSystemHandler.createRequiredDirs();
 		ExtentLogger.info(PropertyUtils.get(ConfigMap.URLFORENV));
+		ExtentManager.getExtentTest().assignDevice((String) AppiumSetup.getCapability("name", CapabilityManager.getDeviceUDID()));
 	}
 
 	public void onTestSuccess(ITestResult result) {
@@ -121,9 +123,6 @@ public class Listener implements ITestListener, ISuiteListener {
 
 	public void onStart(ITestContext context) {
 		// Will run before <test> in testng.xml
-		CapabilityManager.setDeviceUDID(AppiumServerSetup.getAvailableDeviceUDID());
-		File file = AppiumServerSetup.getCapabilityFile(CapabilityManager.getDeviceUDID());
-		CapabilityManager.setCapabilityFile(file);
 	}
 
 	public void onFinish(ITestContext context) {

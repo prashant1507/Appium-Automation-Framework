@@ -3,9 +3,8 @@ package org.automation.reports;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-
-import org.automation.appium.AppiumServerSetup;
 import org.automation.constants.GlobalVars;
 import org.automation.enums.ConfigMap;
 import org.automation.setpath.ReportPath;
@@ -61,7 +60,7 @@ public final class ExtentReport {
 			spark.config().setTheme(Theme.DARK);
 			spark.config().setDocumentTitle(GlobalVars.getReportTitle());
 			spark.config().setReportName(GlobalVars.getReportName());
-			spark.config().setEncoding(GlobalVars.getUtf8());
+			spark.config().setEncoding(String.valueOf(StandardCharsets.UTF_8));
 			spark.config().setTimeStampFormat(GlobalVars.getDateTimeFormat2());
 			// spark.config().setOfflineMode(true);
 
@@ -69,6 +68,10 @@ public final class ExtentReport {
 			try {
 				extentReports.setSystemInfo("Name", PropertyUtils.get(ConfigMap.TESTERNAME));
 				extentReports.setSystemInfo("Environment", PropertyUtils.get(ConfigMap.ENVIRONMENT));
+				extentReports.setSystemInfo("OS", "Android");
+				extentReports.setSystemInfo("App", PropertyUtils.get(ConfigMap.APPNAME));
+				extentReports.setSystemInfo("App Package", PropertyUtils.get(ConfigMap.APPPACKAGE));
+				extentReports.setSystemInfo("App Activity", PropertyUtils.get(ConfigMap.APPACTIVITY));
 				extentReports.setSystemInfo("URL", PropertyUtils.get(ConfigMap.URLFORENV));
 				extentReports.setSystemInfo("Report Path", ReportPath.getReportPath());
 				extentReports.setAnalysisStrategy(AnalysisStrategy.TEST);
@@ -113,7 +116,7 @@ public final class ExtentReport {
 	public static void createTests(String testCaseName) {
 		ExtentTest extentTest = null;
 		try {
-			extentTest = extentReports.createTest(testCaseName).assignDevice(GlobalVars.getOsPlatform())
+			extentTest = extentReports.createTest(testCaseName)
 					.assignAuthor(PropertyUtils.get(ConfigMap.TESTERNAME))
 					.assignCategory(PropertyUtils.get(ConfigMap.ENVIRONMENT));
 		} catch (Exception e) {

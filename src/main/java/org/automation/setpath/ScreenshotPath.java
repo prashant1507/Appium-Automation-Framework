@@ -3,9 +3,8 @@ package org.automation.setpath;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.automation.appium.AppiumServerSetup;
+import org.automation.appium.AppiumSetup;
 import org.automation.appium.CapabilityManager;
-import org.automation.appium.ServiceManager;
 import org.automation.constants.GlobalVars;
 
 import lombok.AccessLevel;
@@ -50,7 +49,7 @@ public final class ScreenshotPath {
 	 *
 	 */
 	public static void setCurrentTestExecutionScreenshotsDir() {
-		dir.set(GlobalVars.getScreenshotDir() + AppiumServerSetup.getCapability("name") + "_"
+		dir.set(GlobalVars.getScreenshotDir() + AppiumSetup.getCapability("name", CapabilityManager.getDeviceUDID()) + "_"
 				+ new SimpleDateFormat(GlobalVars.getDateTimeFormat1()).format(new Date()));
 	}
 }

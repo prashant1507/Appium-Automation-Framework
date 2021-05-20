@@ -6,21 +6,21 @@ import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.Test;
 
-public final class LoginPageTests extends BaseSetup {
+public final class HomePageTest extends BaseSetup {
 
-	@Test(testName = "Login page verification", description = "Verify if login page is displayed", retryAnalyzer = RetryFailedTests.class)
-	public void verifyLoginPage() {
-		LoginPage loginPage = new LoginPage();
-		Assert.assertTrue(loginPage.isPageLogoImgDisplayed(), "Icon not displayed.");
-		Assert.assertTrue(loginPage.isNotificationBellDisplayed(), "Notification Bell not displayed.");
-		Assert.assertTrue(loginPage.isNotificationIconDisplayed(), "Notification Icon not displayed.");
-	}
-	
-	@Test(testName = "Skip test name", description = "Skip test case")
-	public void skip() {
-		throw new SkipException("hi, I am skipped");
-	}
-//
+    @Test(testName = "Login page verification", description = "Verify if login page is displayed - HomePageTest", retryAnalyzer = RetryFailedTests.class)
+    public void verifyLoginPage() {
+        LoginPage loginPage = new LoginPage();
+        Assert.assertTrue(loginPage.isPageLogoImgDisplayed(), "Icon not displayed.");
+        Assert.assertTrue(loginPage.isNotificationBellDisplayed(), "Notification Bell not displayed.");
+        Assert.assertTrue(loginPage.isNotificationIconDisplayed(), "Notification Icon not displayed.");
+    }
+
+    @Test(testName = "Skip test name", description = "Skip test case - HomePageTest")
+    public void skip() {
+        throw new SkipException("hi, I am skipped");
+    }
+
 //	@Test(testName = "Valid login details duplicate", description = "duplicate")
 //	public void verifyLogin1() {
 //		LoginPage loginPage = new LoginPage();

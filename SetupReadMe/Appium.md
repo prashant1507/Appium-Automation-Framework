@@ -1,3 +1,4 @@
+## **_Setup Docker Appium_**
 1. Create a virtual box  
    ```
    docker-machine create --driver virtualbox appium-test-machine

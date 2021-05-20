@@ -7,17 +7,10 @@ import java.util.concurrent.TimeUnit;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
-import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.automation.appium.AppiumServerSetup;
+import org.automation.appium.AppiumSetup;
 import org.automation.appium.ServiceManager;
-import org.automation.enums.ConfigMap;
-import org.automation.utils.PropertyUtils;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
@@ -43,7 +36,7 @@ public final class Driver {
 
 		if (Objects.isNull(DriverManager.getDriver())) {
 			try {
-				DesiredCapabilities cap = new DesiredCapabilities(AppiumServerSetup.setUpServer());
+				DesiredCapabilities cap = new DesiredCapabilities(AppiumSetup.startAppiumServer());
 				URL url = new URL(ServiceManager.getService().getUrl().toString());
 				AppiumDriver<MobileElement> driver = new AppiumDriver<>(url, cap);
 				DriverManager.setDriver(driver);

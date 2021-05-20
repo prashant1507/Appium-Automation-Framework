@@ -1,9 +1,9 @@
 package org.automation.tests;
 
-import org.automation.appium.AppiumServerSetup;
+import org.automation.appium.AppiumSetup;
 import org.automation.appium.CapabilityManager;
-import org.automation.appium.GenerateCapabilityFile;
 import org.automation.appium.ServiceManager;
+import org.automation.constants.GlobalVars;
 import org.automation.driver.Driver;
 import org.automation.setpath.ScreenshotPath;
 import org.automation.setpath.VideoPath;
@@ -22,6 +22,8 @@ public class BaseSetup {
 	@BeforeMethod
 	protected void setUp(ITestContext context) {
 		try {
+			CapabilityManager.setDeviceUDID(AppiumSetup.getAvailableDeviceUDID());
+			GlobalVars.getConnectedDevices().put(CapabilityManager.getDeviceUDID(), true);
 			Driver.initDriver();
 			ScreenshotPath.setCurrentTestExecutionScreenshotsDir();
 			VideoPath.setVideoPath();
@@ -32,6 +34,7 @@ public class BaseSetup {
 
 	@AfterMethod
 	protected void tearDown() {
+		GlobalVars.getConnectedDevices().put(CapabilityManager.getDeviceUDID(), false);
 		Driver.quiteDriver();
 		ServiceManager.getService().stop();
 		ServiceManager.unloadService();

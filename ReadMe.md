@@ -1,6 +1,6 @@
-# _Automation Framework_
+# _Appium Automation Framework_
 
-This is a java selenium framework which is using testng, maven, extent report, selenium, java, etc to achieve different tasks.
+This is a java appium framework which is using testng, maven, extent report, appium, java, etc to achieve different tasks.
 
 [Project's Java Docs](java-doc)   
 [Sample Test Report](framework-generate-sample-report/ExecutionReport.html)   
@@ -8,11 +8,12 @@ This is a java selenium framework which is using testng, maven, extent report, s
 [Execution Settings](src/test/resources/config/Config.properties)
 
 ### _Project Features_
-- Supports parallel test.   
-- Multiple browsers can be setup.
+- Appium server will start and stop automatically with different ports.
+- Each device's capability file will be created automatically.
+- Supports parallel testing (for parallel="tests" in [testng.xml](testng.xml)).   
+- Multiple devices can be attached to machine.
 - Generates report after each run for all test cases with screenshots.
 - Record video for failed test cases.
-- Option to auto manage drives using WebDriverManager.
 - Option to send report to email (Gmail / Outlook).
 - Option to run tests on local or remote.
 - Read data from Properties file, Excel, JSON files.
@@ -33,8 +34,8 @@ This is a java selenium framework which is using testng, maven, extent report, s
 ### _Project Components_
 Below are the component details of the framework:
 
-- #### Browser interaction using
-    `selenium`
+- #### Device interaction using
+    [Appium](https://mvnrepository.com/artifact/io.appium/java-client)
 
 - #### Test Data
     Supports to read and maintain data from multiple file types like:
@@ -63,14 +64,10 @@ Below are the component details of the framework:
         - [testng.xml](testng.xml)
         - Jenkins
     -   Tests can be executed using:
-        - local browsers
-        - remote browsers
-        - docker selenium grid
-        - selenium grid
-        - selenoid
-        - zalenium
+        - real devices
+        - remote devices
+        - emulators
     
-
 -   #### Other Components
     - [JavaMail API](https://mvnrepository.com/artifact/com.sun.mail/javax.mail) and [JavaBeans(TM) Activation Framework](https://mvnrepository.com/artifact/javax.activation/activation) is used to send the test report automatically on email using gmail or outlook. However, user can still decide if report has to be send or not.<br/>
       **Note:** Framework allows passwords in `Base64Encode` only.
@@ -87,12 +84,17 @@ Below are the component details of the framework:
 
 -   `url` of the test environment.
 -   `environment` where the test has to be performed.
--   `testername` inorder to keep track.
--   `downloadwebdriver` to decide if tester want to place the drivers or wants the framework to download it with the help of [WebDriverManager](https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager).
+-   `testername` in order to keep track.
+-   `ip` ip where appium is set up.
+-   `appiumjs` path to main.js (e.g., %APPDATA%/npm/node_modules/appium/build/lib/main.js)
+-   `nodejs` path to node executable (e.g., C:/Program Files/nodejs/node.exe)
+-   `apppackage` app package name.
+-	`appactivity` app activity name.
+-	`appname` app name.
 -	`runmode` decides whether to run test cases on local, grid (/ docker-grid), zalenium or selenoid. Accepts yes or no.
      -  if `runmode` is yes then user has to provide the remote url in `remoteurl`.
--   `environment` which is to be tested.
--   `testername` name of the tester.
+-   `useelk` yes if elk is deployed
+    -   `elksuiteurl` if yes provide the url for kibana
 -   To delete old report data:
     ```
     deleteoldreports - to elect if tester wants to delete old reports. Accepts yes or no.

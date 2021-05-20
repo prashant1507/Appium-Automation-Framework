@@ -12,13 +12,28 @@
 	<test name="device1">
 		<classes>
 			<class name="org.automation.tests.LoginPageTests" />
+			<class name="org.automation.tests.HomePageTest" />
 		</classes>
 	</test>
+
+	<test name="device2">
+		<classes>
+			<class name="org.automation.tests.LoginPageTests" />
+			<class name="org.automation.tests.HomePageTest" />
+		</classes>
+	</test>
+
+<!--	<test name="device3">-->
+<!--		<classes>-->
+<!--			<class name="org.automation.tests.LoginPageTests" />-->
+<!--			<class name="org.automation.tests.HomePageTest" />-->
+<!--		</classes>-->
+<!--	</test>-->
 </suite>
 
 
 
-<!-- data-provider-thread-count="2" to limit the parallel execution of data 
+<!-- data-provider-thread-count="2" to limit the parallel execution of data
 	provider -->
 
 <!-- <suite name="Suite" verbose="10" parallel="classes" thread-count="2" 

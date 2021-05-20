@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.io.File;
-import java.util.HashMap;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CapabilityManager {
