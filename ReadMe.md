@@ -10,6 +10,7 @@ This is a java appium framework which is using testng, maven, extent report, app
 ### _Project Features_
 - Appium server will start and stop automatically with different ports.
 - Each device's capability file will be created automatically.
+    - [Capability Template File](src/test/resources/capabilityTemplate.json) will be used to generate actual capability files for each device.
 - Supports parallel testing (for parallel="tests" in [testng.xml](testng.xml)).   
 - Multiple devices can be attached to machine.
 - Generates report after each run for all test cases with screenshots.
@@ -136,6 +137,8 @@ Below are the component details of the framework:
 1.	For Jenkins to support extent reporting (or other CSS, etc. components ) run below in scripts `https://jenkisURL/script`
       `System.setProperty("hudson.model.DirectoryBrowserSupport.CSP","")`	
 2. Uses [lombok](https://www.baeldung.com/lombok-ide).
+3. Appium server logs will be stored in [logs folder](src/test/resources/logs) with name currentThread.txt if there is an error.
+4. All capabilities file will be stored in [capabilities folder](src/test/resources/capabilities/) with name deviceUDID.json.
 
 ### References:
 - [Zalenium](https://opensource.zalando.com/zalenium/)

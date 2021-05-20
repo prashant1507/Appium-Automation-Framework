@@ -5,7 +5,6 @@ ReadMe.md
 Update docker file for appium
 Java Docs
 framework-generate-sample-report/
-Change use elk in config.properties
 
 
 Update:
@@ -21,8 +20,4 @@ Dynamic Grd 4
 Selenium Grid 4
 
 Add in Readme:
-- Appium error logs in resources/logs
-- capabilities folder
-- cap template folder
 How to setup java, sdk, appium, node
-add about the hashmap flag
