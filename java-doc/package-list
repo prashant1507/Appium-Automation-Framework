@@ -1,0 +1,15 @@
+org.automation.appium
+org.automation.constants
+org.automation.dataproviders
+org.automation.driver
+org.automation.elk
+org.automation.enums
+org.automation.factories
+org.automation.listeners
+org.automation.pages
+org.automation.reports
+org.automation.sendreport
+org.automation.setpath
+org.automation.testrecorder
+org.automation.tests
+org.automation.utils
