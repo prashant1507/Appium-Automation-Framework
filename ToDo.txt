@@ -20,4 +20,3 @@ Dynamic Grd 4
 Selenium Grid 4
 
 Add in Readme:
-How to setup java, sdk, appium, node

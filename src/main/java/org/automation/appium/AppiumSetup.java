@@ -43,27 +43,28 @@ public final class AppiumSetup {
             FileUtils.forceMkdir(new File(GlobalVars.getLogsDir()));
             Object obj = getCapability("capabilities", CapabilityManager.getDeviceUDID());
             capabilities = mapper.readValue(String.valueOf(obj), HashMap.class);
-
-            builder.usingAnyFreePort();
-            builder.withIPAddress(PropertyUtils.get(ConfigMap.IP));
-            builder.withAppiumJS(new File(PropertyUtils.get(ConfigMap.APPIUMJS)));
-            builder.usingDriverExecutable(new File(PropertyUtils.get(ConfigMap.NODEJS)));
-            builder.withLogFile(new File(GlobalVars.getLogsDir()
-                    .concat(String.valueOf(getCapability("name", CapabilityManager.getDeviceUDID()))
-                    .concat(Thread.currentThread().getName())
-                    .concat(".txt"))));
-            builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
-            builder.withArgument(GeneralServerFlag.LOG_LEVEL, "error");
-            builder.withStartUpTimeOut(60, TimeUnit.SECONDS);
+            if (PropertyUtils.get(ConfigMap.RUNMODE).equalsIgnoreCase(GlobalVars.getLocal())) {
+                builder.usingAnyFreePort();
+                builder.withIPAddress(PropertyUtils.get(ConfigMap.IP));
+                builder.withAppiumJS(new File(PropertyUtils.get(ConfigMap.APPIUMJS)));
+                builder.usingDriverExecutable(new File(PropertyUtils.get(ConfigMap.NODEJS)));
+                builder.withLogFile(new File(GlobalVars.getLogsDir()
+                        .concat(String.valueOf(getCapability("name", CapabilityManager.getDeviceUDID()))
+                                .concat(Thread.currentThread().getName())
+                                .concat(".txt"))));
+                builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
+                builder.withArgument(GeneralServerFlag.LOG_LEVEL, "error");
+                builder.withStartUpTimeOut(60, TimeUnit.SECONDS);
 
 //            Map<String, String> env = new HashMap<>();
 //            env.put("JAVA_HOME", "");
 //            env.put("ANDROID_HOME", "");
 //            builder.withEnvironment(env);
 
-            AppiumDriverLocalService service = AppiumDriverLocalService.buildService(builder);
-            service.start();
-            ServiceManager.setService(service);
+                AppiumDriverLocalService service = AppiumDriverLocalService.buildService(builder);
+                service.start();
+                ServiceManager.setService(service);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

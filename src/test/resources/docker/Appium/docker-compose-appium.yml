@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  appium:
+    image: appium/appium
+    restart: always
+    privileged: true
+    ports:
+      - "4723:4723" # one port for each device
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
+      - ~/.android:/root/.android
+      # - path/to/NODE/CONFIG:/root/nodeconfig.json # This is required if CUSTOM_NODE_CONFIG=true in environment
+    environment:
+      - CONNECT_TO_GRID=false
+      - APPIUM_HOST=192.168.0.142
+      - APPIUM_PORT=4723

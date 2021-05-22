@@ -19,17 +19,16 @@ This is a java appium framework which is using testng, maven, extent report, app
 - Option to run tests on local or remote.
 - Read data from Properties file, Excel, JSON files.
 - Real time reporting using ELK.
-- Option to run on docker grid, local, zalenium or selenoid.
+- Option to run on docker grid, local, or existing appium server.
 - On-demand browser instance creation using [Dynamic Selenium Grid 4](https://github.com/SeleniumHQ/docker-selenium).
-- On-demand browser instance creation using [Zalenium](https://opensource.zalando.com/zalenium/).
 - Run using [JenkinsFile](src/test/resources/Jenkins/Jenkinsfile).
 
 ### _Docker Compose File_
 - [Elastic Search Kibana](src/test/resources/docker/docker-compose-elastic-search-kibana.yml)
 - [Jenkins](src/test/resources/docker/docker-compose-jenkins.yml)
+- [Appium](src/test/resources/docker/Appium)
 - [Selenium Grid 4](src/test/resources/docker/docker-compose-selenium-grid.yml)
 - [Selenoid](src/test/resources/docker/Selenoid/docker-compose-selenoid.yml)
-- [Zalenium](src/test/resources/docker/docker-compose-zalenium.yml)
 - [Dynamic Selenium Grid 4](src/test/resources/docker/Dynamic%20Selenium%20Grid/docker-compose-dynamic-grid.yml)
 
 ### _Project Components_
@@ -92,8 +91,9 @@ Below are the component details of the framework:
 -   `apppackage` app package name.
 -	`appactivity` app activity name.
 -	`appname` app name.
--	`runmode` decides whether to run test cases on local, grid (/ docker-grid), zalenium or selenoid. Accepts yes or no.
+-	`runmode` decides whether to run test cases on existing appium server, local, grid (/ docker-grid). Accepts yes or no.
      -  if `runmode` is yes then user has to provide the remote url in `remoteurl`.
+     -  if `runmode` is local then provide `ip, appiumJS, node executable`.
 -   `useelk` yes if elk is deployed
     -   `elksuiteurl` if yes provide the url for kibana
 -   To delete old report data:
@@ -141,6 +141,5 @@ Below are the component details of the framework:
 4. All capabilities file will be stored in [capabilities folder](src/test/resources/capabilities/) with name deviceUDID.json.
 
 ### References:
-- [Zalenium](https://opensource.zalando.com/zalenium/)
 - [Selenium Grid 4](https://github.com/SeleniumHQ/docker-selenium)
 - [Selenoid](https://github.com/aerokube/selenoid)

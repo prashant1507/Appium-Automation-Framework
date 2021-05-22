@@ -11,6 +11,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.automation.appium.AppiumSetup;
 import org.automation.appium.ServiceManager;
+import org.automation.constants.GlobalVars;
+import org.automation.enums.ConfigMap;
+import org.automation.utils.PropertyUtils;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
@@ -35,9 +38,14 @@ public final class Driver {
 	public static void initDriver() {
 
 		if (Objects.isNull(DriverManager.getDriver())) {
+			URL url = null;
 			try {
 				DesiredCapabilities cap = new DesiredCapabilities(AppiumSetup.startAppiumServer());
-				URL url = new URL(ServiceManager.getService().getUrl().toString());
+				if (PropertyUtils.get(ConfigMap.RUNMODE).equalsIgnoreCase(GlobalVars.getLocal())) {
+					url = new URL(ServiceManager.getService().getUrl().toString());
+				} else if (PropertyUtils.get(ConfigMap.RUNMODE).equalsIgnoreCase(GlobalVars.getExistingAppium())) {
+					url = new URL(PropertyUtils.get(ConfigMap.REMOTEURL));
+				}
 				AppiumDriver<MobileElement> driver = new AppiumDriver<>(url, cap);
 				DriverManager.setDriver(driver);
 			} catch (MalformedURLException e) {

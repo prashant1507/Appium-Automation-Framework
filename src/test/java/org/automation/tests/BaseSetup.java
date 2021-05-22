@@ -5,8 +5,10 @@ import org.automation.appium.CapabilityManager;
 import org.automation.appium.ServiceManager;
 import org.automation.constants.GlobalVars;
 import org.automation.driver.Driver;
+import org.automation.enums.ConfigMap;
 import org.automation.setpath.ScreenshotPath;
 import org.automation.setpath.VideoPath;
+import org.automation.utils.PropertyUtils;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 
@@ -36,7 +38,9 @@ public class BaseSetup {
 	protected void tearDown() {
 		GlobalVars.getConnectedDevices().put(CapabilityManager.getDeviceUDID(), false);
 		Driver.quiteDriver();
-		ServiceManager.getService().stop();
+		if (PropertyUtils.get(ConfigMap.RUNMODE).equalsIgnoreCase(GlobalVars.getLocal())) {
+			ServiceManager.getService().stop();
+		}
 		ServiceManager.unloadService();
 		CapabilityManager.unloadDeviceUDID();
 		ScreenshotPath.unloadDir();
